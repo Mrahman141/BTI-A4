@@ -1,5 +1,8 @@
 
 // http://localhost:8080
+var data_service = require("data-service");
+var data_s=data_service();
+
 var express = require("express"); // Include express.js module
 var app = express();
 
