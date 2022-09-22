@@ -8,6 +8,13 @@ var path = require("path"); // include moduel path to use __dirname, and functio
 
 var HTTP_PORT = process.env.PORT || 8080;  // || : or
 
+// Static Files
+app.use(express.static('public'));
+// Specific folder example
+// app.use('/css', express.static(__dirname + 'public/css'))
+// app.use('/js', express.static(__dirname + 'public/js'))
+// app.use('/img', express.static(__dirname + 'public/images'))
+
 // call this function after the http server starts listening for requests
 function onHttpStart(){
     console.log("Express http server listening on: " + HTTP_PORT);
@@ -22,6 +29,7 @@ app.get("/", function(req, res){
 app.get("/about", function (req, res){
     res.sendFile(path.join(__dirname, "/views/about.html"));
 });
+
 
 
 
