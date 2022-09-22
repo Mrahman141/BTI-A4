@@ -23,7 +23,7 @@ app.get("/about", function (req, res){
     res.sendFile(path.join(__dirname, "/views/about.html"));
 });
 
-app.use(express.static("/public/css/site.css"));
+
 
 
 //setup http server to listen on HTTP_PORT
