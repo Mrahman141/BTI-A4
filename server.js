@@ -4,21 +4,25 @@
 var express = require("express"); // Include express.js module
 var app = express();
 
+var data_service = require("./data-service");
+
 var path = require("path"); // include moduel path to use __dirname, and function path.join()
 
 var HTTP_PORT = process.env.PORT || 8080;  // || : or
 
 // Static Files
-app.use(express.static('public'));
+ app.use(express.static('public'));
 // Specific folder example
-// app.use('/css', express.static(__dirname + 'public/css'))
+ //app.use('/css', express.static(__dirname + 'public/css'))
 // app.use('/js', express.static(__dirname + 'public/js'))
 // app.use('/img', express.static(__dirname + 'public/images'))
+
 
 // call this function after the http server starts listening for requests
 function onHttpStart(){
     console.log("Express http server listening on: " + HTTP_PORT);
 }
+
 
 // setup a 'route' to listen on the default url path (http://localhost)
 app.get("/", function(req, res){
