@@ -35,7 +35,23 @@ app.get("/about", function (req, res){
 });
 
 
+app.get("/employees", function (req,res){
 
+    res.send("Not Done E");
+
+});
+
+app.get("/managers", function (req,res){
+
+    res.send("Not Done M");
+
+});
+
+app.get("/departments", function (req,res){
+
+    res.send("Not Done D");
+
+});
 
 
 //setup http server to listen on HTTP_PORT
