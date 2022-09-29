@@ -4,7 +4,7 @@
 var express = require("express"); // Include express.js module
 var app = express();
 
-var data_service = require("./data-service");
+var data_service = require("data-service");
 
 var path = require("path"); // include moduel path to use __dirname, and function path.join()
 
