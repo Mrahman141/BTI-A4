@@ -53,6 +53,14 @@ app.get("/departments", function (req,res){
 });
 
 
+app.get('*', function(req, res){
+    var text = 'Error:404 <br/> You are not supposed to be here. <br/> Why are you still here? <br/> If you like this page, then alright, you can stay here.';
+    text += '<br/> Or you can go back Home and explore the Website.';
+    text += "<a href='/'> Home </a>";
+
+    res.send(text, 404);
+});
+
 // setup http server to listen on HTTP_PORT
 data_service.initialize().then(()=>{
     app.listen(HTTP_PORT, onHttpStart);
