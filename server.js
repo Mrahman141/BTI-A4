@@ -1,30 +1,20 @@
-
-// http://localhost:8080
-
-var express = require("express"); // Include express.js module
+var express = require("express");
+const { type } = require("os");
 var app = express();
+var path = require("path");
 
 var data_service = require("./data-service");
 
-var path = require("path"); // include moduel path to use __dirname, and function path.join()
 
-var HTTP_PORT = process.env.PORT || 8080;  // || : or
+app.use(express.static('public'));
 
-// Static Files
- app.use(express.static('public'));
-// Specific folder example
- //app.use('/css', express.static(__dirname + 'public/css'))
-// app.use('/js', express.static(__dirname + 'public/js'))
-// app.use('/img', express.static(__dirname + 'public/images'))
-
+var HTTP_PORT = process.env.PORT || 8080;
 
 // call this function after the http server starts listening for requests
-function onHttpStart(){
-    console.log("Express http server listening on: " + HTTP_PORT);
+function onHttpStart() {
+  console.log("Express http server listening on: " + HTTP_PORT);
 }
 
-
-// setup a 'route' to listen on the default url path (http://localhost)
 app.get("/", function(req, res){
     res.sendFile(path.join(__dirname, "/views/home.html"));
 });
@@ -34,25 +24,38 @@ app.get("/about", function (req, res){
     res.sendFile(path.join(__dirname, "/views/about.html"));
 });
 
-
 app.get("/employees", function (req,res){
-
-    res.send("Not Done E");
+    
+    data_service.getAllEmployees().then((emp)=>{
+        res.json(emp);
+    }).catch((mesg)=>{
+        console.log(mesg);
+    })
 
 });
 
 app.get("/managers", function (req,res){
-
-    res.send("Not Done M");
-
+    data_service.getManagers().then((mang)=>{
+        res.json(mang);
+    }).catch((mesg)=>{
+        console.log(mesg);
+    })
 });
 
 app.get("/departments", function (req,res){
 
-    res.send("Not Done D");
+    data_service.getDepartments().then((dept)=>{
+        res.json(dept);
+    }).catch((mesg)=>{
+        console.log(mesg);
+    })
 
 });
 
 
-//setup http server to listen on HTTP_PORT
-app.listen(HTTP_PORT, onHttpStart);
+// setup http server to listen on HTTP_PORT
+data_service.initialize().then(()=>{
+    app.listen(HTTP_PORT, onHttpStart);
+  }).catch((mesg)=>{
+    console.log(mesg);
+  });
