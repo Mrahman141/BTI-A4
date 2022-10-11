@@ -32,6 +32,16 @@ app.get("/about", function (req, res){
     res.sendFile(path.join(__dirname, "/views/about.html"));
 });
 
+
+app.get("/employees/add", function (req, res){
+    res.sendFile(path.join(__dirname, "/views/addEmployee.html"));
+});
+
+app.get("/images/add", function (req, res){
+    res.sendFile(path.join(__dirname, "/views/addImage.html"));
+});
+
+
 app.get("/employees", function (req,res){
     
     data_service.getAllEmployees().then((emp)=>{
