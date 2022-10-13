@@ -11,8 +11,13 @@ const { type } = require("os");
 var app = express();
 const multer = require("multer");
 var path = require("path");
+const fs = require('node:fs');
+
 
 var data_service = require("./data-service");
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 
 app.use(express.static('public'));
@@ -71,6 +76,21 @@ app.get("/departments", function (req,res){
 
 });
 
+app.get("/images", function (req,res){
+
+    fs.readdir("./public/images/uploaded", function(err,items){
+
+        if(err){
+            console.log("Error reading Directory");
+        }
+        else{
+            
+            res.json(items);
+
+        }
+        
+    })
+});
 
 app.get('*', function(req, res){
     var text = 'Error:404 <br/> You are not supposed to be here. <br/> Why are you still here? <br/> If you like this page, then alright, you can stay here.';
@@ -89,6 +109,25 @@ const storage = multer.diskStorage({
   });
 
   const upload = multer({ storage: storage });
+
+
+app.post("/images/add", upload.single("imageFile"), (req,res) => {
+
+    res.redirect("/images");
+
+});
+
+app.post("/employees/add", (req,res) => {
+
+
+    data_service.addEmployee(req.body).then(()=>{
+        res.redirect("/employees");
+    }).catch(()=>{
+        console.log('ERROR');
+    })
+
+});
+
 
 
 // setup http server to listen on HTTP_PORT

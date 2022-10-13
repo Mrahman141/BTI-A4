@@ -91,6 +91,36 @@ function getManagers(){
 
 }
 
+function addEmployee(employeeData){
+
+
+    return new Promise((resolve,reject)=>{
+
+        if(employeeData.isManager == undefined){
+            employeeData.isManager = false;
+        }
+        else{
+            employeeData.isManager = true;
+        }
+
+        employeeData.employeeNum = employees.length++;
+
+        employees.push(employeeData);
+
+        resolve();
+
+
+
+
+
+
+
+    })
+
+
+}
+
+exports.addEmployee = addEmployee;
 exports.getManagers = getManagers;
 exports.getDepartments = getDepartments;
 exports.getAllEmployees = getAllEmployees;
