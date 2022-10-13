@@ -9,6 +9,7 @@
 var express = require("express");
 const { type } = require("os");
 var app = express();
+const multer = require("multer");
 var path = require("path");
 
 var data_service = require("./data-service");
@@ -78,6 +79,17 @@ app.get('*', function(req, res){
 
     res.send(text, 404);
 });
+
+
+const storage = multer.diskStorage({
+    destination: "./public/images/uploaded",
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + path.extname(file.originalname));
+    }
+  });
+
+  const upload = multer({ storage: storage });
+
 
 // setup http server to listen on HTTP_PORT
 data_service.initialize().then(()=>{
