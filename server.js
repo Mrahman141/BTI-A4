@@ -47,16 +47,55 @@ app.get("/images/add", function (req, res){
     res.sendFile(path.join(__dirname, "/views/addImage.html"));
 });
 
+app.get("/employee/:value", function (req,res){
 
-app.get("/employees", function (req,res){
     
-    data_service.getAllEmployees().then((emp)=>{
-        res.json(emp);
+    data_service.getEmployeeByNum(req.params.value).then((mang)=>{
+        res.json(mang);
     }).catch((mesg)=>{
         console.log(mesg);
     })
 
 });
+
+app.get("/employees", function (req,res){
+    
+    if(req.query.status){
+        data_service.getEmployeesByStatus(req.query.status).then((emp)=>{
+            res.json(emp);
+        }).catch((mesg)=>{
+            console.log(mesg);
+        })
+
+    }
+    else if(req.query.department){
+
+        data_service.getEmployeesByDepartment(req.query.department).then((emp)=>{
+            res.json(emp);
+        }).catch((mesg)=>{
+            console.log(mesg);
+        })
+
+
+    }
+    else if(req.query.manager){
+        data_service.getEmployeesByManager(req.query.manager).then((emp)=>{
+            res.json(emp);
+        }).catch((mesg)=>{
+            console.log(mesg);
+        })
+        
+    }
+    else{
+        data_service.getAllEmployees().then((emp)=>{
+            res.json(emp);
+        }).catch((mesg)=>{
+            console.log(mesg);
+        })
+    }
+
+});
+
 
 app.get("/managers", function (req,res){
     data_service.getManagers().then((mang)=>{
