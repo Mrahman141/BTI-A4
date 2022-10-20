@@ -3,7 +3,7 @@
  * of this assignment has been copied manually or electronically from any other source * 
  * (including 3rd party web sites) or distributed to other students. * 
  * Name: Mohammed Aminoor Rahman Student ID: 166562215 Date: October 20th, 2022 * 
- * Your app’s URL (from Cyclic) :  https://radiant-reaches-74214.herokuapp.com/   * 
+ * Your app’s URL (from HEROKU) :  https://radiant-reaches-74214.herokuapp.com/   * 
  **************************************************************************/
 
 var express = require("express");
