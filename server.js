@@ -23,7 +23,22 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'));
 
 
-app.engine('.hbs', exphbs.engine({ extname: '.hbs' }));
+app.engine('.hbs', exphbs.engine({ extname: '.hbs',
+    helpers: {
+        navLink: function(url, options){
+            return '<li' + ((url == app.locals.activeRoute) ? ' class="active" ' : '') + '><a href=" ' + url + ' ">' + options.fn(this) + '</a></li>';
+        },
+        equal: function (lvalue, rvalue, options) {
+            if (arguments.length < 3)
+            throw new Error("Handlebars Helper equal needs 2 parameters");
+            if (lvalue != rvalue) {
+            return options.inverse(this);
+            } else {
+            return options.fn(this);
+            }
+        }
+    }
+}));
 app.set('view engine', '.hbs');
 
 var HTTP_PORT = process.env.PORT || 8080;
@@ -34,6 +49,11 @@ function onHttpStart() {
   
 }
 
+app.use(function(req,res,next){
+    let route = req.baseUrl + req.path;
+    app.locals.activeRoute = (route == "/") ? "/" : route.replace(/\/$/, "");
+    next();
+});
 
 
 
@@ -118,13 +138,13 @@ app.get("/employees", function (req,res){
 });
 
 
-app.get("/managers", function (req,res){
-    data_service.getManagers().then((mang)=>{
-        res.json(mang);
-    }).catch((mesg)=>{
-        console.log(mesg);
-    })
-});
+// app.get("/managers", function (req,res){
+//     data_service.getManagers().then((mang)=>{
+//         res.json(mang);
+//     }).catch((mesg)=>{
+//         console.log(mesg);
+//     })
+// });
 
 app.get("/departments", function (req,res){
 
@@ -144,8 +164,10 @@ app.get("/images", function (req,res){
             console.log("Error reading Directory");
         }
         else{
-            
-            res.json(items);
+                res.render('images', {
+                data: items,
+                layout: "main.hbs"
+            });
 
         }
         
