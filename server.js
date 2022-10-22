@@ -88,9 +88,9 @@ app.get("/employee/:value", function (req,res){
 
     
     data_service.getEmployeeByNum(req.params.value).then((emp)=>{
-        res.json(emp);
-    }).catch((mesg)=>{
-        res.render("employees",{message: mesg});
+        res.render("employee", { data:emp });
+        }).catch((mesg)=>{
+        res.render("employee",{message: mesg});
     })
 
 });
@@ -206,6 +206,10 @@ app.post("/employees/add", (req,res) => {
 
 });
 
+app.post("/employee/update", (req, res) => { 
+    console.log(req.body);
+    res.redirect("/employees"); 
+});
 
 
 // setup http server to listen on HTTP_PORT
