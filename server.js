@@ -145,10 +145,10 @@ app.get("/employees", function (req,res){
 app.get("/departments", function (req,res){
 
     data_service.getDepartments().then((dept)=>{
-        res.json(dept);
-    }).catch((mesg)=>{
-        console.log(mesg);
-    })
+        res.render("departments", {data: dept});
+        }).catch((mesg)=>{
+            res.render("departments",{message: mesg});
+        })
 
 });
 
