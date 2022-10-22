@@ -7,6 +7,7 @@
  **************************************************************************/
 
 var express = require("express");
+const exphbs = require('express-handlebars');
 const { type } = require("os");
 var app = express();
 const multer = require("multer");
@@ -19,33 +20,52 @@ var data_service = require("./data-service");
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-
-
 app.use(express.static('public'));
+
+
+app.engine('.hbs', exphbs.engine({ extname: '.hbs' }));
+app.set('view engine', '.hbs');
 
 var HTTP_PORT = process.env.PORT || 8080;
 
 // call this function after the http server starts listening for requests
 function onHttpStart() {
   console.log("Express http server listening on: " + HTTP_PORT);
+  
 }
 
+
+
+
 app.get("/", function(req, res){
-    res.sendFile(path.join(__dirname, "/views/home.html"));
+    res.render('home', {
+        data: " ",
+        layout: "main.hbs"
+    });
 });
 
  // setup another route to listen on /about
 app.get("/about", function (req, res){
-    res.sendFile(path.join(__dirname, "/views/about.html"));
+    res.render('about', {
+        data: " ",
+        layout: "main.hbs"
+    });
 });
 
 
 app.get("/employees/add", function (req, res){
-    res.sendFile(path.join(__dirname, "/views/addEmployee.html"));
+    res.render('addEmployee', {
+        data: " ",
+        layout: "main.hbs"
+    });
 });
 
 app.get("/images/add", function (req, res){
-    res.sendFile(path.join(__dirname, "/views/addImage.html"));
+    res.render('addImage', {
+        data: " ",
+        layout: "main.hbs"
+    });
+    
 });
 
 app.get("/employee/:value", function (req,res){
