@@ -2,10 +2,10 @@
 
 const res = require('express/lib/response');
 const { json } = require('express/lib/response');
-const fs = require('node:fs');
+const fs = require('fs');
 const { resolve } = require('node:path');
 
-var employees = [];
+var employee = [];
 var departments = [];
 
 
@@ -18,7 +18,7 @@ function initialize (){
                 reject("Unable to read the file");
             }
             else{
-                employees = JSON.parse(emp);
+                employee = JSON.parse(emp);
     
                 fs.readFile('data/departments.json', (er,dept) => {
                     if(er){
@@ -39,13 +39,12 @@ function getAllEmployees(){
 
     return new Promise((resolve, reject) => {
         
-        if(employees.length == 0){
+        if(employee.length == 0){
             reject("No results Returned");
         }
         else{
-            resolve(employees);
+            resolve(employee);
         }
-
 
     })
 
@@ -74,9 +73,9 @@ function getManagers(){
     var isManagers = [];
 
     return new Promise((resolve,reject) => {
-        for(let i=0; i < employees.length; i++){
-            if(employees[i].isManager){
-                isManagers.push(employees[i]);
+        for(let i=0; i < employee.length; i++){
+            if(employee[i].isManager){
+                isManagers.push(employee[i]);
             }
         }
 
@@ -91,12 +90,25 @@ function getManagers(){
 
 }
 
-function addEmployee(employeeData){
+function updateEmployee(employeeData){
+    return new Promise((resolve,reject)=>{
+        for(let i=0; i < employee.length; i++){
+            if(employee[i].employeeNum == employeeData.employeeNum){
+                employee[i] = employeeData;
+            }
+        }
+        resolve();
+    })
 
+
+}
+
+
+function addEmployee(employeeData){
 
     return new Promise((resolve,reject)=>{
 
-        employeeData.employeeNum = (employees.length+1);
+        employeeData.employeeNum = (employee.length+1);
         if(employeeData.isManager == undefined){
             employeeData.isManager = false;
         }
@@ -104,7 +116,7 @@ function addEmployee(employeeData){
             employeeData.isManager = true;
         }
 
-        employees.push(employeeData);
+        employee.push(employeeData);
 
         resolve();
 
@@ -120,9 +132,9 @@ function getEmployeesByStatus(status){
 
         return new Promise ((resolve,reject) =>{
 
-            for(let i=0; i < employees.length; i++){
-                if(employees[i].status==status){
-                    employ.push(employees[i]);
+            for(let i=0; i < employee.length; i++){
+                if(employee[i].status==status){
+                    employ.push(employee[i]);
                 }
             }
     
@@ -145,8 +157,8 @@ function getEmployeesByDepartment(department){
     return new Promise ((resolve,reject) =>{
 
         for(let i=0; i < employees.length; i++){
-            if(employees[i].department==department){
-                depart.push(employees[i]);
+            if(employee[i].department==department){
+                depart.push(employee[i]);
             }
         }
 
@@ -169,9 +181,9 @@ var mang = [];
 
     return new Promise ((resolve,reject) =>{
 
-        for(let i=0; i < employees.length; i++){
-            if(employees[i].employeeManagerNum==manager){
-                mang.push(employees[i]);
+        for(let i=0; i < employee.length; i++){
+            if(employee[i].employeeManagerNum==manager){
+                mang.push(employee[i]);
             }
         }
 
@@ -191,19 +203,13 @@ function getEmployeeByNum(num){
 
     return new Promise ((resolve,reject) =>{
 
-        for(let i=0; i < employees.length; i++){
-            if(employees[i].employeeNum==num){
-                resolve(employees[i]);
+        for(let i=0; i < employee.length; i++){
+            if(employee[i].employeeNum==num){
+                resolve(employee[i]);
             }
         }
-
         reject("No results Returned");
-        
-
-
     })
-
-
 }
 
 exports.getEmployeeByNum = getEmployeeByNum;
@@ -215,3 +221,4 @@ exports.getManagers = getManagers;
 exports.getDepartments = getDepartments;
 exports.getAllEmployees = getAllEmployees;
 exports.initialize = initialize;
+exports.updateEmployee = updateEmployee;
