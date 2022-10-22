@@ -59,7 +59,6 @@ app.use(function(req,res,next){
 
 app.get("/", function(req, res){
     res.render('home', {
-        data: " ",
         layout: "main.hbs"
     });
 });
@@ -67,7 +66,6 @@ app.get("/", function(req, res){
  // setup another route to listen on /about
 app.get("/about", function (req, res){
     res.render('about', {
-        data: " ",
         layout: "main.hbs"
     });
 });
@@ -75,14 +73,12 @@ app.get("/about", function (req, res){
 
 app.get("/employees/add", function (req, res){
     res.render('addEmployee', {
-        data: " ",
         layout: "main.hbs"
     });
 });
 
 app.get("/images/add", function (req, res){
     res.render('addImage', {
-        data: " ",
         layout: "main.hbs"
     });
     
@@ -91,10 +87,10 @@ app.get("/images/add", function (req, res){
 app.get("/employee/:value", function (req,res){
 
     
-    data_service.getEmployeeByNum(req.params.value).then((mang)=>{
-        res.json(mang);
+    data_service.getEmployeeByNum(req.params.value).then((emp)=>{
+        res.json(emp);
     }).catch((mesg)=>{
-        console.log(mesg);
+        res.render("employees",{message: mesg});
     })
 
 });
@@ -103,35 +99,35 @@ app.get("/employees", function (req,res){
     
     if(req.query.status){
         data_service.getEmployeesByStatus(req.query.status).then((emp)=>{
-            res.json(emp);
+            res.render("employees", {data: emp})
         }).catch((mesg)=>{
-            console.log(mesg);
+            res.render("employees",{message: mesg});
         })
 
     }
     else if(req.query.department){
 
         data_service.getEmployeesByDepartment(req.query.department).then((emp)=>{
-            res.json(emp);
+            res.render("employees", {data: emp})
         }).catch((mesg)=>{
-            console.log(mesg);
+            res.render("employees",{message: mesg});
         })
 
 
     }
     else if(req.query.manager){
         data_service.getEmployeesByManager(req.query.manager).then((emp)=>{
-            res.json(emp);
+            res.render("employees", {data: emp})
         }).catch((mesg)=>{
-            console.log(mesg);
+            res.render("employees",{message: mesg});
         })
         
     }
     else{
         data_service.getAllEmployees().then((emp)=>{
-            res.json(emp);
+            res.render("employees", {data: emp})
         }).catch((mesg)=>{
-            console.log(mesg);
+            res.render("employees",{message: mesg});
         })
     }
 
