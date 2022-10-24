@@ -91,13 +91,16 @@ function getManagers(){
 }
 
 function updateEmployee(employeeData){
+    console.log(employeeData)
     return new Promise((resolve,reject)=>{
         for(let i=0; i < employee.length; i++){
             if(employee[i].employeeNum == employeeData.employeeNum){
                 employee[i] = employeeData;
             }
         }
+
         resolve();
+
     })
 
 

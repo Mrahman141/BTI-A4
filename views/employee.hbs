@@ -3,6 +3,7 @@
         <h2>{{data.firstName}} {{data.lastName}} - Employee: {{data.employeeNum}}</h2>
         <hr />
         <form method="post" action="/employee/update">
+        <input type="hidden" name="employeeNum" value={{data.employeeNum}}>
             <fieldset>
                 <legend>Personal Information</legend>
                 <div class="row">
