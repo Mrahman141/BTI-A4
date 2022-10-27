@@ -159,7 +159,7 @@ function getEmployeesByDepartment(department){
 
     return new Promise ((resolve,reject) =>{
 
-        for(let i=0; i < employees.length; i++){
+        for(let i=0; i < employee.length; i++){
             if(employee[i].department==department){
                 depart.push(employee[i]);
             }
